@@ -11,10 +11,9 @@ class QuantidadeServicoPorCategoria extends ChartWidget
 
     protected function getData(): array
     {
-        // Consulta para obter a quantidade de produtos por categoria
         $data = Servico::selectRaw('categoria_id as categoria_id, COUNT(*) as count')
             ->groupBy('categoria_id')
-            ->with('categoria') // Certifique-se de que o relacionamento está configurado no modelo Produto
+            ->with('categoria')
             ->get();
 
         return [

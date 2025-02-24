@@ -56,7 +56,7 @@ class ServiceResource extends Resource
                 Tables\Columns\TextColumn::make('descricao')->label('Descrição')->limit(50),
             ])
             ->filters([
-                // Filtros podem ser adicionados aqui
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -73,7 +73,7 @@ class ServiceResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // Relacionamentos podem ser definidos aqui
+            //
         ];
     }
 

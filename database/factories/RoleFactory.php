@@ -13,7 +13,7 @@ class RoleFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'guard_name' => 'web', // Use o mesmo guard configurado
+            'guard_name' => 'web',
         ];
     }
 }

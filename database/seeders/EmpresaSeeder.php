@@ -3,13 +3,14 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\Empresa;
 
 class EmpresaSeeder extends Seeder
 {
     public function run(): void
     {
-        // Criando algumas empresas fictícias
+        DB::table('categorias')->truncate();
         Empresa::create([
             'cnpj' => '12345678000100',
             'nome_fantasia' => 'Empresa A',

@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles;
-    
+
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'tipo_login',
         'password',
-        'tipo_empresa',  // Certifique-se que o campo 'tipo_empresa' está correto no banco
+        'tipo_empresa',
     ];
 
     /**

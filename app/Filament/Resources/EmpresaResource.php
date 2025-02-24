@@ -67,11 +67,11 @@ class EmpresaResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('tipo')
                     ->label('Tipo')
-                    ->required()   
+                    ->required()
                     ->options([
                         'Fornecedor' => 'Fornecedor',
                         'Prestador de Serviço' => 'Prestador de Serviço',
-                        'Ambos' => 'Ambos',]),              
+                        'Ambos' => 'Ambos',]),
                 Forms\Components\DateTimePicker::make('data_do_cadastro')
                     ->label('Data do cadastro')
                     ->default(now())
@@ -85,7 +85,7 @@ class EmpresaResource extends Resource
     {
         if (strlen($cnpj) === 14) {
             $url = "https://receitaws.com.br/v1/cnpj/{$cnpj}";
-            
+
             try {
                 $response = Http::get($url);
                 $dados = $response->json();
@@ -117,7 +117,7 @@ class EmpresaResource extends Resource
             }
         }
     }
-    
+
     public static function table(Table $table): Table
     {
         return $table

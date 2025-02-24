@@ -44,7 +44,7 @@ class RealizarCotacao extends Page implements HasForms
     public function submitForm()
     {
         $form_data = $this->form->getState();
-    
+
         if (empty($form_data['categoria_id']) || empty($form_data['custo'])) {
             Notification::make()
                 ->title('Erro')
@@ -53,8 +53,7 @@ class RealizarCotacao extends Page implements HasForms
                 ->send();
             return;
         }
-    
-        // Carregar serviços relacionados à categoria e custo máximo
+
         $this->empresas = Empresa::whereHas('servicos', function ($query) use ($form_data) {
             $query->where('categoria_id', $form_data['categoria_id'])
                   ->where('custo', '<=', $form_data['custo']);
@@ -62,7 +61,7 @@ class RealizarCotacao extends Page implements HasForms
             $query->where('categoria_id', $form_data['categoria_id'])
                   ->where('custo', '<=', $form_data['custo']);
         }])->get();
-    
+
         if ($this->empresas->isEmpty()) {
             Notification::make()
                 ->title('Nenhum Serviço Encontrado')

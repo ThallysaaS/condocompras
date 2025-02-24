@@ -15,8 +15,6 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Permission::query()->truncate();
         $permissions = [
             ['name' => 'listar user', 'guard_name' => 'web'],
@@ -51,6 +49,5 @@ class PermissionSeeder extends Seeder
             ['name' => 'deletar roles', 'guard_name' => 'web'],
         ];
         Permission::insert($permissions);
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

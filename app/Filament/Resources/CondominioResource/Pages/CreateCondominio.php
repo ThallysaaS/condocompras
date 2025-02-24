@@ -14,7 +14,6 @@ class CreateCondominio extends CreateRecord
 
     public function buscarCep($cep, callable $set)
     {
-        // Valida o formato do CEP
         $validator = Validator::make(['cep' => $cep], [
             'cep' => 'required|digits:8',
         ]);
@@ -29,7 +28,6 @@ class CreateCondominio extends CreateRecord
             return;
         }
 
-        // Faz a requisição à API
         $client = new Client();
         $url = "https://viacep.com.br/ws/{$cep}/json/";
 
@@ -38,8 +36,8 @@ class CreateCondominio extends CreateRecord
             $dados = json_decode($response->getBody(), true);
 
             if (!isset($dados['erro'])) {
-                $this->form->fill([           
-                    'logradouro' => $dados['logradouro'],     
+                $this->form->fill([
+                    'logradouro' => $dados['logradouro'],
                     'bairro' => $dados['bairro'],
                     'UF' => $dados['uf']
                 ]);

@@ -22,7 +22,7 @@ class ProductResource extends Resource
     public static function getNavigation(): NavigationItem
     {
         return NavigationItem::make('Produtos')
-            ->icon('heroicon-o-cube'); // Definindo um ícone e título
+            ->icon('heroicon-o-cube');
     }
 
     public static function form(Form $form): Form

@@ -11,14 +11,12 @@ class EmpresasCadastradasPorMes extends ChartWidget
 
     protected function getData(): array
     {
-        // Consultar os dados de cadastros por mês
         $data = Empresa::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-            ->whereYear('created_at', now()->year) // Filtrar para o ano atual
+            ->whereYear('created_at', now()->year)
             ->groupBy('month')
             ->orderBy('month')
             ->get();
 
-        // Criar um array de rótulos (nomes dos meses)
         $months = [
             1 => 'Janeiro', 2 => 'Fevereiro', 3 => 'Março', 4 => 'Abril',
             5 => 'Maio', 6 => 'Junho', 7 => 'Julho', 8 => 'Agosto',
@@ -29,7 +27,7 @@ class EmpresasCadastradasPorMes extends ChartWidget
             'datasets' => [
                 [
                     'label' => 'Cadastros de Empresas',
-                    'data' => $data->pluck('count')->toArray(), // Quantidade de cadastros
+                    'data' => $data->pluck('count')->toArray(),
                 ],
             ],
             'labels' => $data->pluck('month')->map(fn($month) => $months[$month])->toArray(),

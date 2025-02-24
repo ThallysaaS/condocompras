@@ -15,32 +15,30 @@ return new class extends Migration
             $table->id();
             $table->date('data_cotacao');
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('condominio_id')->nullable()->constrained('condominios')->onDelete('cascade'); // Usando foreignId
+            $table->foreignId('condominio_id')->nullable()->constrained('condominios')->onDelete('cascade');
             $table->integer('tipo')->default(0);
             $table->string('status');
-            $table->timestamps(); // Adiciona created_at e updated_at
+            $table->timestamps();
         });
 
-        // Tabela historico_cotacoes
         Schema::create('historico_cotacoes', function (Blueprint $table) {
             $table->id();
             $table->date('data_criacao_cotacao');
-            $table->foreignId('cotacao_id')->nullable()->constrained('cotacoes')->onDelete('cascade'); // Usando foreignId
+            $table->foreignId('cotacao_id')->nullable()->constrained('cotacoes')->onDelete('cascade');
             $table->integer('tipo')->default(0);
             $table->string('status');
-            $table->timestamps(); // Adiciona created_at e updated_at
+            $table->timestamps();
         });
 
-        // Tabela itens_cotacoes
         Schema::create('itens_cotacoes', function (Blueprint $table) {
             $table->id();
             $table->date('data');
-            $table->foreignId('produto_id')->constrained('produtos'); // Usando foreignId
-            $table->foreignId('servico_id')->nullable()->constrained('servicos')->onDelete('cascade'); // Usando foreignId
-            $table->foreignId('condominio_id')->nullable()->constrained('condominios')->onDelete('cascade'); // Usando foreignId
+            $table->foreignId('produto_id')->constrained('produtos');
+            $table->foreignId('servico_id')->nullable()->constrained('servicos')->onDelete('cascade');
+            $table->foreignId('condominio_id')->nullable()->constrained('condominios')->onDelete('cascade');
             $table->integer('tipo')->default(0);
             $table->string('status');
-            $table->timestamps(); // Adiciona created_at e updated_at
+            $table->timestamps();
         });
     }
 

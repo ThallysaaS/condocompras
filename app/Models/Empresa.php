@@ -46,16 +46,12 @@ class Empresa extends Model
         return $this->hasMany(Produto::class);
     }
 
-    // Evento para criar a categoria quando a empresa for criada
     protected static function booted()
     {
         static::created(function ($empresa) {
-            // Verifique se a empresa tem uma atividade principal
             if ($empresa->atividade_principal) {
-                // Verifique se a categoria com o nome da atividade principal já existe
                 $categoria = DB::table('categorias')->where('nome', $empresa->atividade_principal)->first();
 
-                // Se não existir, cria a nova categoria
                 if (!$categoria) {
                     DB::table('categorias')->insert([
                         'nome' => $empresa->atividade_principal,

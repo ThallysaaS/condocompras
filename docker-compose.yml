@@ -1,0 +1,90 @@
+# Docker compose for use in local development with local installation of php, it doesn't include php-fpm or nginx
+version: '3'
+services:
+    reverse-proxy:
+        # The official v2 Traefik docker image
+        image: traefik:v2.4
+        # Enables the web UI and tells Traefik to listen to docker
+        command:
+            #      - "--log.level=DEBUG"
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entrypoints.web.address=:80"
+            - "--providers.file=true"
+            - "--providers.file.watch=false"
+            - "--providers.file.filename=/etc/traefik/rules.toml"
+            - "--accesslog=true"
+        ports:
+            # The HTTP port
+            - "80:80"
+            # The Web UI (enabled by --api.insecure=true)
+            - "8124:8080"
+        networks:
+            - utilis-app
+        volumes:
+            # So that Traefik can listen to the Docker events
+            - /var/run/docker.sock:/var/run/docker.sock
+            - "./traefik/rules.toml:/etc/traefik/rules.toml"
+
+    pgsql:
+        image: postgis/postgis:14-master
+        ports:
+            - '${FORWARD_DB_PORT:-5439}:5432'
+        environment:
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        volumes:
+            - 'database:/var/lib/postgresql/data'
+        networks:
+            - utilis-app
+        healthcheck:
+            test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+
+    redis:
+        image: 'redis:alpine'
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'redis:/data'
+        networks:
+            - utilis-app
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+    mailhog:
+        image: 'mailhog/mailhog:latest'
+        ports:
+            - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+        networks:
+            - utilis-app
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.mailhog.service=mailhog"
+            - "traefik.http.routers.mailhog.rule=Host(`mailhog.localhost`)"
+            - "traefik.http.routers.mailhog.entrypoints=web"
+            - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
+    redis-commander:
+        image: rediscommander/redis-commander:latest
+        restart: always
+        environment:
+            - REDIS_HOSTS=local:redis:6379
+        networks:
+            - utilis-app
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.redis-commander.service=redis-commander"
+            - "traefik.http.routers.redis-commander.rule=Host(`redis.localhost`)"
+            - "traefik.http.routers.redis-commander.entrypoints=web"
+            - "traefik.http.services.redis-commander.loadbalancer.server.port=8081"
+
+
+networks:
+    utilis-app:
+        driver: bridge
+volumes:
+    database:
+        driver: local
+    redis:
+        driver: local

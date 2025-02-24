@@ -33,7 +33,6 @@ class CondominioResource extends Resource
                     ->extraInputAttributes(['maxlength' => 8])
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $set) {
-                        // Instancie a classe CreateCondominio para chamar buscarCep
                         (new CreateCondominio())->buscarCep($state, $set);
                     }),
                 Forms\Components\TextInput::make('logradouro')->label('Logradouro'),
@@ -43,7 +42,6 @@ class CondominioResource extends Resource
                 Forms\Components\TextInput::make('cnpj')->label('CNPJ')->required(),
                 Forms\Components\TextInput::make('email')->label('Email')->email(),
                 Forms\Components\TextInput::make('nome_sindico')->label('Síndico'),
-                // subsíndico, telefone condominio, CPF Síndico, endereço sindico, email sindico, telefone, dt nascimento
             ]);
     }
 

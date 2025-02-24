@@ -29,19 +29,19 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->label('Nome do usuário'),
-    
+
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->label('E-mail'),
-    
+
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->revealable()
                     ->label('Crie uma senha')
                     ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
                     ->visible(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord),
-    
+
                 Forms\Components\Select::make('tipo_login')
                     ->required()
                     ->label('Selecione o tipo do usuário')
@@ -52,7 +52,7 @@ class UserResource extends Resource
                         '4' => 'Usuário',
                     ])
                     ->reactive(),
-    
+
                 Forms\Components\Select::make('tipo_empresa')
                     ->label('Selecione o tipo da empresa')
                     ->options([
@@ -60,11 +60,11 @@ class UserResource extends Resource
                         'prestador' => 'Prestador de Serviços',
                         'ambos' => 'Ambos',
                     ])
-                    ->visible(fn (callable $get) => $get('tipo_login') === '2'), // Exibe apenas se o tipo for Empresa
+                    ->visible(fn (callable $get) => $get('tipo_login') === '2'),
             ]);
     }
-    
-                                    
+
+
     public static function table(Table $table): Table
     {
         return $table
