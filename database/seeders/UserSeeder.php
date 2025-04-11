@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         }
         if (! User::whereEmail('sindico@sindico.com')->exists()) {
             $admin = User::factory()->create([
-                'name' => 'Administrados',
+                'name' => 'Sindico',
                 'email' => 'sindico@sindico.com',
                 'password' => 'admin',
             ]);
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
         }
         if (! User::whereEmail('usuario@usuario.com')->exists()) {
             $admin = User::factory()->create([
-                'name' => 'Administrados',
+                'name' => 'Usuario',
                 'email' => 'usuario@usuario.com',
                 'password' => 'admin',
             ]);

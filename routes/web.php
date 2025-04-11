@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\NResource\Pages\RealizarCotacao;
+use App\Filament\Resources\CotacaoResource\Pages\RealizarCotacao;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\HomeController;
 

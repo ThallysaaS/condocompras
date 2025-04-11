@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ItemCotacao extends Model
 {
     use HasFactory;
+    protected $table = 'itens_cotacoes';
 
     protected $fillable = [
         'data',

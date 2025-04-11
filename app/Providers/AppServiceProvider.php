@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
-use App\Filament\Resources\NResource\Pages\RealizarCotacao;
+use App\Filament\Resources\CotacaoResource\Pages\RealizarCotacao;
 
 class AdminServiceProvider extends ServiceProvider
 {

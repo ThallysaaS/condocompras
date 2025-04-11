@@ -33,7 +33,7 @@ return new class extends Migration
         Schema::create('itens_cotacoes', function (Blueprint $table) {
             $table->id();
             $table->date('data');
-            $table->foreignId('produto_id')->constrained('produtos');
+            $table->foreignId('produto_id')->nullable()->constrained('produtos')->onDelete('cascade');
             $table->foreignId('servico_id')->nullable()->constrained('servicos')->onDelete('cascade');
             $table->foreignId('condominio_id')->nullable()->constrained('condominios')->onDelete('cascade');
             $table->integer('tipo')->default(0);

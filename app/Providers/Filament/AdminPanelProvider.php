@@ -20,7 +20,8 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Resources\UserResource;
-
+use App\Filament\Resources\CotacaoResource\Pages\Cotacoes;
+use App\Filament\Resources\CotacaoResource\Pages\RealizarCotacao;
 
 
 class AdminPanelProvider extends PanelProvider
@@ -43,7 +44,8 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
-                \App\Filament\Resources\NResource\Pages\RealizarCotacao::class,
+                RealizarCotacao::class,
+                Cotacoes::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

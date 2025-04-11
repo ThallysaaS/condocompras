@@ -24,12 +24,22 @@ class EmpresaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('cnpj')
-                    ->label('CNPJ')
-                    ->placeholder('Digite o CNPJ sem pontuação')
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) => self::buscarEmpresa($state, $set)),
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('cnpj')
+                            ->label('CNPJ')
+                            ->placeholder('Digite o CNPJ sem pontuação')
+                            ->required(),
+
+                        Forms\Components\Actions::make([
+                            Forms\Components\Actions\Action::make('Pesquisar')
+                                ->label('Pesquisar CNPJ')
+                                ->icon('heroicon-m-magnifying-glass')
+                                ->action(fn (callable $get, callable $set) => self::buscarEmpresa($get('cnpj'), $set))
+                                ->color('primary')
+                        ])
+                        ->columns(1),
+                    ]),
                 Forms\Components\TextInput::make('nome_fantasia')
                     ->label('Nome Fantasia')
                     ->required(),
@@ -65,13 +75,15 @@ class EmpresaResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->label('E-mail')
                     ->required(),
-                Forms\Components\Select::make('tipo')
+                    Forms\Components\Select::make('tipo')
                     ->label('Tipo')
                     ->required()
                     ->options([
                         'Fornecedor' => 'Fornecedor',
                         'Prestador de Serviço' => 'Prestador de Serviço',
-                        'Ambos' => 'Ambos',]),
+                        'Ambos' => 'Ambos',
+                    ])
+                    ->default('Ambos'),
                 Forms\Components\DateTimePicker::make('data_do_cadastro')
                     ->label('Data do cadastro')
                     ->default(now())
@@ -83,11 +95,23 @@ class EmpresaResource extends Resource
 
     public static function buscarEmpresa($cnpj, callable $set)
     {
+        $cnpj = preg_replace('/\D/', '', $cnpj); // Remove qualquer caractere não numérico
+
         if (strlen($cnpj) === 14) {
             $url = "https://receitaws.com.br/v1/cnpj/{$cnpj}";
 
             try {
-                $response = Http::get($url);
+                // Desabilita a verificação SSL
+                $response = Http::withoutVerifying()->get($url);
+
+                if ($response->status() === 429) {
+                    throw new \Exception('Limite de consultas excedido. Tente novamente mais tarde.');
+                }
+
+                if ($response->status() === 504) {
+                    throw new \Exception('Timeout na API da ReceitaWS. Tente novamente mais tarde.');
+                }
+
                 $dados = $response->json();
 
                 if ($dados && isset($dados['status']) && $dados['status'] === 'OK') {
@@ -104,6 +128,7 @@ class EmpresaResource extends Resource
                     $set('uf', $dados['uf']);
                     $set('cep', $dados['cep']);
                     $set('email', $dados['email']);
+                    $set('tipo', $dados['tipo'] ?? 'Ambos');
 
                     $categoriaExistente = Categoria::where('nome', $atividadePrincipal)->first();
                     if (!$categoriaExistente && $atividadePrincipal) {
@@ -111,10 +136,29 @@ class EmpresaResource extends Resource
                             'nome' => $atividadePrincipal,
                         ]);
                     }
+
+                    \Filament\Notifications\Notification::make()
+                        ->title('Empresa encontrada!')
+                        ->body('Os dados foram preenchidos automaticamente.')
+                        ->success()
+                        ->send();
+                } else {
+                    throw new \Exception('CNPJ não encontrado ou dados indisponíveis.');
                 }
             } catch (\Exception $e) {
-
+                \Log::error('Erro na busca de CNPJ: ' . $e->getMessage());
+                \Filament\Notifications\Notification::make()
+                    ->title('Erro ao buscar CNPJ')
+                    ->body($e->getMessage())
+                    ->danger()
+                    ->send();
             }
+        } else {
+            \Filament\Notifications\Notification::make()
+                ->title('CNPJ inválido')
+                ->body('Digite um CNPJ válido com 14 números.')
+                ->warning()
+                ->send();
         }
     }
 

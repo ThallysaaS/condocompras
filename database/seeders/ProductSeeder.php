@@ -17,7 +17,6 @@ class ProductSeeder extends Seeder
     {
         DB::table('produtos')->insert([
             [
-                "id" => 1,
                 "nome" => "Tinta Acrílica Premium (Coral Decora)",
                 "descricao" => "Pintura de áreas comuns e fachadas.",
                 "categoria_id" => 1, // ID da categoria 'Pintura e Revitalização'
@@ -25,7 +24,6 @@ class ProductSeeder extends Seeder
                 "custo" => 300,
             ],
             [
-                "id" => 2,
                 "nome" => "Madeira Tratada Autoclavada",
                 "descricao" => "Construção de decks, cercas e móveis externos.",
                 "categoria_id" => 2, // ID da categoria 'Carpintaria'
@@ -33,7 +31,6 @@ class ProductSeeder extends Seeder
                 "custo" => 50,
             ],
             [
-                "id" => 3,
                 "nome" => "Grama Esmeralda em Placas",
                 "descricao" => "Cobertura de áreas verdes e jardins.",
                 "categoria_id" => 3, // ID da categoria 'Jardinagem e Paisagismo'
@@ -41,7 +38,6 @@ class ProductSeeder extends Seeder
                 "custo" => 300,
             ],
             [
-                "id" => 4,
                 "nome" => "Luminária LED de Embutir",
                 "descricao" => "Iluminação de áreas comuns e corredores.",
                 "categoria_id" => 4, // ID da categoria 'Manutenção Elétrica'
@@ -49,7 +45,6 @@ class ProductSeeder extends Seeder
                 "custo" => 80,
             ],
             [
-                "id" => 5,
                 "nome" => "Adubo Orgânico (Húmus de Minhoca)",
                 "descricao" => "Fertilização de jardins e plantas.",
                 "categoria_id" => 3, // ID da categoria 'Jardinagem e Paisagismo'

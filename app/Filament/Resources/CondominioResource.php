@@ -10,6 +10,8 @@ use Filament\Resources\Resource;
 use App\Filament\Resources\CondominioResource\Pages\CreateCondominio;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+
 
 class CondominioResource extends Resource
 {
@@ -25,7 +27,7 @@ class CondominioResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nome_fantasia')
-                    ->label('Nome do Condominio')
+                    ->label('Nome do Condomínio')
                     ->required(),
                 Forms\Components\TextInput::make('cep')
                     ->label('CEP')
@@ -33,15 +35,16 @@ class CondominioResource extends Resource
                     ->extraInputAttributes(['maxlength' => 8])
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $set) {
-                        (new CreateCondominio())->buscarCep($state, $set);
+                        $cep = preg_replace('/\D/', '', trim($state));
+                        (new CreateCondominio())->buscarCep($cep, $set);
                     }),
                 Forms\Components\TextInput::make('logradouro')->label('Logradouro'),
                 Forms\Components\TextInput::make('complemento_do_endereco')->label('Complemento'),
                 Forms\Components\TextInput::make('bairro')->label('Bairro'),
-                Forms\Components\TextInput::make('UF')->label('UF'),
-                Forms\Components\TextInput::make('cnpj')->label('CNPJ')->required(),
-                Forms\Components\TextInput::make('email')->label('Email')->email(),
-                Forms\Components\TextInput::make('nome_sindico')->label('Síndico'),
+                Forms\Components\TextInput::make('uf')->label('UF')->required(),
+                Forms\Components\TextInput::make('cnpj')->label('CNPJ')->extraInputAttributes(['maxlength' => 14])->required(),
+                Forms\Components\TextInput::make('email')->label('Email')->email()->required(),
+                Forms\Components\TextInput::make('nome_sindico')->label('Síndico')->required(),
             ]);
     }
 
@@ -49,7 +52,10 @@ class CondominioResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('nome_fantasia')->label('Nome do Condomínio'),
+                TextColumn::make('cnpj')->label('CNPJ'),
+                TextColumn::make('email')->label('email'),
+                TextColumn::make('nome_sindico')->label('Síndico'),
             ])
             ->filters([
                 //

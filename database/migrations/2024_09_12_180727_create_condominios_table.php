@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('complemento_do_endereco')->nullable();
             $table->string('cep')->nullable();
             $table->string('bairro')->nullable();
-            $table->date('data_do_cadastro');
+            $table->date('data_do_cadastro')->nullable();
             $table->date('data_de_desativacao')->nullable();
             $table->timestamps();
         });

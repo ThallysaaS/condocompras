@@ -29,6 +29,7 @@ class Empresa extends Model
         'atividade_secundaria',
         'data_do_cadastro',
         'data_de_desativacao',
+        'tipo'
     ];
 
     public static function validateCnpjUnique($cnpj)
