@@ -10,7 +10,6 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
-use App\Filament\Widgets\EmpresasCadastradasPorMes;
 use App\Filament\Resources\ServiceResource\Widgets\QuantidadeServicoPorCategoria;
 use App\Filament\Resources\ProductResource\Widgets\QuantidadeProdutoPorCategoria;
 use Illuminate\Cookie\Middleware\EncryptCookies;
