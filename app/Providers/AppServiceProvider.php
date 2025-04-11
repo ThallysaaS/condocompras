@@ -6,7 +6,7 @@ use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\CotacaoResource\Pages\RealizarCotacao;
 
-class AdminServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
