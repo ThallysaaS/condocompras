@@ -59,7 +59,7 @@ class CotacaoResource extends Resource
                 TextColumn::make('empresa.nome_fantasia')->label('Empresa'),
             ])
             ->filters([
-                // Você pode adicionar filtros personalizados aqui
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
