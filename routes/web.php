@@ -8,8 +8,6 @@ Route::get('/realizar-cotacao', RealizarCotacao::class)->name('realizar-cotacao'
 Route::get('/empresas/{id}', [EmpresaController::class, 'show'])->name('empresas.show');
 Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresas.index');
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
