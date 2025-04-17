@@ -1,7 +1,6 @@
-{
-    "build": {
-      "builder": "docker",
-      "dockerfilePath": "docker/build-images/dockerfile",
-      "context": "."
-    }
+"build": {
+    "builder": "docker",
+    "dockerfilePath": "Dockerfile",  // Ajuste o caminho conforme necessário
+    "context": "."
   }
+}
